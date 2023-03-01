@@ -39,10 +39,10 @@ public class Acceuil extends Form {
 //            coachingGui.show();
 //        });
 //
-//        tb.addMaterialCommandToSideMenu("Groupe", FontImage.MATERIAL_GROUPS, (ActionListener) (ActionEvent evt) -> {
-//            GroupeGui groupeGui = new GroupeGui();
-//            groupeGui.show();
-//        });
+        tb.addMaterialCommandToSideMenu("Groupe", FontImage.MATERIAL_GROUPS, (ActionListener) (ActionEvent evt) -> {
+            GroupeGUI groupeGui = new GroupeGUI();
+            groupeGui.show();
+        });
 
         this.show();
     }
