@@ -29,10 +29,10 @@ public class Acceuil extends Form {
             magasinGui.show();
         });
 //
-//        tb.addMaterialCommandToSideMenu("Tournoi", FontImage.MATERIAL_GAMEPAD, (ActionListener) (ActionEvent evt) -> {
-//            TournoiGui tournoiGui = new TournoiGui();
-//            tournoiGui.show();
-//        });
+        tb.addMaterialCommandToSideMenu("Tournoi", FontImage.MATERIAL_GAMEPAD, (ActionListener) (ActionEvent evt) -> {
+            TournoiGui tournoiGui = new TournoiGui();
+          tournoiGui.show();
+      });
 //
 //        tb.addMaterialCommandToSideMenu("Coaching", FontImage.MATERIAL_PEOPLE, (ActionListener) (ActionEvent evt) -> {
 //            CoachingGui coachingGui = new CoachingGui();
