@@ -33,12 +33,12 @@ public class Acceuil extends Form {
 //            TournoiGui tournoiGui = new TournoiGui();
 //            tournoiGui.show();
 //        });
-//
-//        tb.addMaterialCommandToSideMenu("Coaching", FontImage.MATERIAL_PEOPLE, (ActionListener) (ActionEvent evt) -> {
-//            CoachingGui coachingGui = new CoachingGui();
-//            coachingGui.show();
-//        });
-//
+
+        tb.addMaterialCommandToSideMenu("Coaching", FontImage.MATERIAL_PEOPLE, (ActionListener) (ActionEvent evt) -> {
+            CoachingGui coachingGui = new CoachingGui();
+            coachingGui.show();
+       });
+
         tb.addMaterialCommandToSideMenu("Groupe", FontImage.MATERIAL_GROUPS, (ActionListener) (ActionEvent evt) -> {
             GroupeGUI groupeGui = new GroupeGUI();
             groupeGui.show();

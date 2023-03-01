@@ -24,6 +24,8 @@ public class GroupeGUI extends Form {
         sl.setText(ts.fetchGroupe().toString());
         this.add(sl);
 
-        this.getToolbar().addCommandToLeftBar("Back", null, e -> this.showBack());
+                this.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (evt) -> {
+            new Acceuil().showBack();
+        });
     }
 }
