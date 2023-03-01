@@ -19,15 +19,15 @@ public class Acceuil extends Form {
             jeuxGui.show();
         });
 
-//        tb.addMaterialCommandToSideMenu("Actualite", FontImage.MATERIAL_PAGES, (ActionListener) (ActionEvent evt) -> {
-//            ActualiteGui actualiteGui = new ActualiteGui();
-//            actualiteGui.show();
-//        });
-//
-//        tb.addMaterialCommandToSideMenu("Magasin", FontImage.MATERIAL_SHOP, (ActionListener) (ActionEvent evt) -> {
-//            MagasinGui magasinGui = new MagasinGui();
-//            magasinGui.show();
-//        });
+        tb.addMaterialCommandToSideMenu("Actualite", FontImage.MATERIAL_PAGES, (ActionListener) (ActionEvent evt) -> {
+            NewsGui newsGui = new NewsGui();
+            newsGui.show();
+        });
+
+        tb.addMaterialCommandToSideMenu("Magasin", FontImage.MATERIAL_SHOP, (ActionListener) (ActionEvent evt) -> {
+            MagasinGui magasinGui = new MagasinGui();
+            magasinGui.show();
+        });
 //
 //        tb.addMaterialCommandToSideMenu("Tournoi", FontImage.MATERIAL_GAMEPAD, (ActionListener) (ActionEvent evt) -> {
 //            TournoiGui tournoiGui = new TournoiGui();

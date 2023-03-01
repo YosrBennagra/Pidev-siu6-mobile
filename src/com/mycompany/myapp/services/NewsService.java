@@ -6,13 +6,13 @@
 package com.mycompany.myapp.services;
 
 import com.codename1.io.CharArrayReader;
-import com.mycompany.myapp.utilities.Statics;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.events.ActionListener;
-import com.mycompany.myapp.entities.Jeux;
+import com.mycompany.myapp.entities.News;
+import com.mycompany.myapp.utilities.Statics;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,32 +22,31 @@ import java.util.Map;
  *
  * @author ibert
  */
-public class JeuxService {
-
-    ConnectionRequest req;
-    static JeuxService instance = null;
+public class NewsService {
+        ConnectionRequest req;
+    static NewsService instance = null;
 
     boolean resultOK = false;
-    List<Jeux> jeux = new ArrayList<>();
+    List<News> news = new ArrayList<>();
 
-    public JeuxService() {
+    public NewsService() {
         req = new ConnectionRequest();
     }
 
-    public static JeuxService getInstance() {
+    public static NewsService getInstance() {
         if (instance == null) {
-            instance = new JeuxService();
+            instance = new NewsService();
         }
 
         return instance;
     }
 
-    public List<Jeux> fetchJeux() {
+    public List<News> fetchNews() {
 
         req = new ConnectionRequest();
 
         //1
-        String fetchURL = Statics.BASE_URL + "/Afficher_jeux_Json";
+        String fetchURL = Statics.BASE_URL + "/Afficher_news_Json";
 
         //2
         req.setUrl(fetchURL);
@@ -59,19 +58,19 @@ public class JeuxService {
         req.addResponseListener(new ActionListener<NetworkEvent>() {
             @Override
             public void actionPerformed(NetworkEvent evt) {
-                jeux = parseJeux(new String(req.getResponseData()));
+                news = parseNews(new String(req.getResponseData()));
                 req.removeResponseListener(this);
             }
         });
 
         NetworkManager.getInstance().addToQueueAndWait(req);
-        return jeux;
+        return news;
     }
 
-   public List<Jeux> parseJeux(String jsonText) {
+   public List<News> parseNews(String jsonText) {
 
         //var
-        jeux = new ArrayList<>();
+        news = new ArrayList<>();
         
         //DO
         //1
@@ -80,23 +79,19 @@ public class JeuxService {
         try {
             
             //2
-            Map<String, Object> jeuxListJSON = jp.parseJSON(new CharArrayReader(jsonText.toCharArray()));
+            Map<String, Object> newsListJSON = jp.parseJSON(new CharArrayReader(jsonText.toCharArray()));
         
             //3
-            List<Map<String, Object>> list = (List<Map<String, Object>>) jeuxListJSON.get("root");
+            List<Map<String, Object>> list = (List<Map<String, Object>>) newsListJSON.get("root");
         
             //4
-            for (Map<String, Object> item : list) {
-                
-                Jeux j = new Jeux();
-    
-                j.setNomGame((String)item.get("nomGame"));
-                j.setImage((String)item.get("image"));
-                j.setDescription((String)item.get("description"));
+            for (Map<String, Object> item : list) {            
+                News n = new News();
+                n.setDescription((String)item.get("description"));
                 
 
                 
-                jeux.add(j);
+                news.add(n);
             }
         
         } catch (IOException ex) {
@@ -105,6 +100,7 @@ public class JeuxService {
         
         
         //End
-        return jeux;
+        return news;
     }
+    
 }

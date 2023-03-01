@@ -5,12 +5,6 @@
  */
 package com.mycompany.myapp.entities;
 
-import com.codename1.components.ImageViewer;
-import com.codename1.ui.Container;
-import com.codename1.ui.Image;
-import com.codename1.ui.layouts.BorderLayout;
-import java.io.IOException;
-
 
 /**
  *
