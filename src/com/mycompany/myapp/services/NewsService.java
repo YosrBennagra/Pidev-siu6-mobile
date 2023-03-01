@@ -87,10 +87,8 @@ public class NewsService {
             //4
             for (Map<String, Object> item : list) {            
                 News n = new News();
+                n.setTitre((String)item.get("titre"));
                 n.setDescription((String)item.get("description"));
-                
-
-                
                 news.add(n);
             }
         
