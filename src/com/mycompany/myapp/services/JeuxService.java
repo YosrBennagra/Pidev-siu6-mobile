@@ -81,19 +81,13 @@ public class JeuxService {
             List<Map<String, Object>> list = (List<Map<String, Object>>) jeuxListJSON.get("root");
         
             //4
-            for (Map<String, Object> item : list) {
-                
+            for (Map<String, Object> item : list) { 
                 Jeux j = new Jeux();
-    
                 j.setNomGame((String)item.get("nomGame"));
                 j.setImage((String)item.get("image"));
                 j.setDescription((String)item.get("description"));
-                
-
-                
                 jeux.add(j);
             }
-        
         } catch (IOException ex) {
         }
         
