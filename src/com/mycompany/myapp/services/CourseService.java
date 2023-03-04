@@ -78,6 +78,37 @@ public class CourseService {
         return resultOK;
     }
 
+    public boolean updateCourse(Cours c, int id) {
+
+        //1
+        String addURL = Statics.BASE_URL + "/Course/updateAPI/" + id;
+
+        //2
+        req.setUrl(addURL);
+     
+
+        req.setPost(false);
+        
+        req.addArgument("titre", c.getTitre());
+        req.addArgument("description", c.getDescription());
+        req.addArgument("video", c.getVideo());
+        req.addArgument("image", c.getImage());
+        req.addArgument("prix", c.getPrix() + "");
+        req.addArgument("niveau", c.getNiveau());
+        //5
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
+
+        return resultOK;
+    }
+
     public boolean deleteCourse(int id) {
 
         //1

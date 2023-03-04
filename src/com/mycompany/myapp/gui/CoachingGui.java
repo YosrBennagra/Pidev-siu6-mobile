@@ -34,6 +34,8 @@ import com.codename1.ui.URLImage;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
 import com.mycompany.myapp.utilities.Statics;
+import com.codename1.ui.Font;
+import com.codename1.ui.Component;
 
 /**
  *
@@ -44,19 +46,18 @@ public class CoachingGui extends Form {
     EncodedImage enc;
     Image imgs;
     ImageViewer imgv;
-    
 
     private final CourseService ts = CourseService.getInstance();
 
     public CoachingGui() {
         super("course");
+
         //custom
-        this.setLayout(BoxLayout.yCenter());
+        this.setLayout(BoxLayout.y());
         this.setTitle("Home");
 
         //widgets
         Button addCourseBtn = new Button("Add Cours");
-        Button showCoursesBtn = new Button("Show Courses");
 
         addCourseBtn.addActionListener(new ActionListener() {
             @Override
@@ -84,10 +85,11 @@ public class CoachingGui extends Form {
                             Integer.parseInt(prixTF.getText()),
                             comboBox.getSelectedItem()
                     ))) {
-                        Dialog.show("Success", "Task Inserted successfully", "Got it", null);
+                        Dialog.show("Success", "Course Inserted successfully", "Got it", null);
                     } else {
                         Dialog.show("Failed", "Something Wrong! Try again", "Got it", null);
                     }
+                    new CoachingGui().showBack();
                 });
 
                 addF.addAll(titreTF, descriptionTF, videoTF, imageTF, prixTF, comboBox, submitBtn);
@@ -95,76 +97,145 @@ public class CoachingGui extends Form {
                     new CoachingGui().showBack();
                 });
                 addF.show();
+
             }
         });
 
-        showCoursesBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                // create a new CoursesListView container
-                CoursesListView listView = new CoursesListView();
+        // create a new CoursesListView container
+        CoursesListView listView = new CoursesListView();
 
-                // fetch the courses
-                List<Cours> courses = ts.fetchCourses();
+        // fetch the courses
+        List<Cours> courses = ts.fetchCourses();
 
-                // add each course to the CoursesListView container
-                for (Cours c : courses) {
-                    listView.addItem(c.getTitre(), c.getDescription(), c.getPrix() + " DT", c.getNiveau(), new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent evt) {
-                            Form detailsF = new Form("Show Courses", new BorderLayout());
+        // add each course to the CoursesListView container
+        for (Cours c : courses) {
+            listView.addItem(c.getTitre(), c.getDescription(), c.getPrix() + " DT", c.getNiveau(), new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    Form detailsF = new Form("Show Courses", new BorderLayout());
 
-                            /**
-                             * ***********************IMG
-                             * ************************
-                             */
-                            try {
-                                enc = EncodedImage.create("/load.png");
-                            } catch (IOException ex) {
+                    /**
+                     * ***********************IMG ************************
+                     */
+                    try {
+                        enc = EncodedImage.create("/load.png");
+                    } catch (IOException ex) {
 
-                            }
-                            String url = Statics.urlImgCourses + c.getImage();
-                            imgs = URLImage.createToStorage(enc, url, url, URLImage.RESIZE_SCALE);
-                            imgv = new ImageViewer(imgs);
-                            /**
-                             * ***********************END IMG
-                             * ************************
-                             */
-                            Label titreLabel = new Label("Titre: " + c.getTitre());
-                            detailsF.add(BorderLayout.NORTH, titreLabel);
-                            detailsF.add(BorderLayout.CENTER, imgv);
-                            detailsF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
-                                new CoachingGui().showBack();
-                            });
-                            detailsF.show();
-                        }
-                    }, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent arg0) {
-                            int id = c.getId();
-                            boolean result = CourseService.getInstance().deleteCourse(id);
-                            if (result == true) {
-                                Dialog.show("Success", "Coruse deleted", "OK", null);
-                            } else {
-                                Dialog.show("Error", "Failed to delete Course", "OK", null);
-                            }
-                            new CoachingGui().showBack();
-                        }
+                    }
+                    String url = Statics.urlImgCourses + c.getImage();
+                    imgs = URLImage.createToStorage(enc, url, url, URLImage.RESIZE_SCALE);
+                    imgv = new ImageViewer(imgs);
+
+                    Container content = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+                    content.getStyle().setPadding(Component.TOP, 10);
+                    content.getStyle().setPadding(Component.BOTTOM, 10);
+                    content.getStyle().setPadding(Component.LEFT, 20);
+                    content.getStyle().setPadding(Component.RIGHT, 20);
+
+                    /**
+                     * ***********************Title Label
+                     * ************************
+                     */
+                    Label titleLabel = new Label(c.getTitre());
+                    titleLabel.getStyle().setFgColor(0x2D2D2D);
+                    titleLabel.getStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_LARGE));
+                    content.add(titleLabel);
+
+                    /**
+                     * ***********************IMG ************************
+                     */
+                    Button playButton = new Button();
+                    playButton.getStyle().setBgTransparency(0);
+                    playButton.getStyle().setAlignment(Component.CENTER);
+                    playButton.getStyle().setMargin(Component.BOTTOM, 5);
+                    playButton.setMaterialIcon(FontImage.MATERIAL_PLAY_CIRCLE_FILLED);
+                    playButton.addActionListener(e -> {
+                        // play the video
                     });
+
+                    Container imageContainer = new Container(new BorderLayout());
+                    imageContainer.add(BorderLayout.CENTER, imgv);
+                    imageContainer.add(BorderLayout.SOUTH, playButton);
+
+                    content.add(imageContainer);
+
+                    /**
+                     * ***********************Description Label
+                     * ************************
+                     */
+                    Label descriptionLabel = new Label(c.getDescription());
+                    descriptionLabel.getStyle().setFgColor(0x7F7F7F);
+                    descriptionLabel.getStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
+                    descriptionLabel.setUIID("MultiLineLabel");
+                    content.add(descriptionLabel);
+
+                    detailsF.add(BorderLayout.NORTH, content);
+
+                    detailsF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
+                        new CoachingGui().showBack();
+                    });
+
+                    detailsF.show();
                 }
 
-                // create a new form and add the CoursesListView container to it
-                Form showF = new Form("Show Courses", new BorderLayout());
-                showF.addComponent(BorderLayout.CENTER, listView);
-
-                showF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
+            }, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent arg0) {
+                    int id = c.getId();
+                    boolean result = CourseService.getInstance().deleteCourse(id);
+                    if (result == true) {
+                        Dialog.show("Success", "Coruse deleted", "OK", null);
+                    } else {
+                        Dialog.show("Error", "Failed to delete Course", "OK", null);
+                    }
                     new CoachingGui().showBack();
-                });
-                showF.show();
-            }
-        });
+                }
+            }, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent arg0) {
+                    Form addF = new Form("update Course", BoxLayout.y());
+                    //Widgets
+                    TextField titreTF = new TextField(c.getTitre(), "Cour's name");
+                    TextField descriptionTF = new TextField(c.getDescription(), "Cour's description");
+                    TextField videoTF = new TextField(c.getVideo(), "Cour's video");
+                    TextField imageTF = new TextField(c.getImage(), "Cour's image");
+                    TextField prixTF = new TextField(String.valueOf(c.getPrix()), "Cour's prix");
 
-        this.addAll(addCourseBtn, showCoursesBtn);
+                    String[] items = {"debutant", "intermediare", "avance"};
+                    ComboBox<String> comboBox = new ComboBox<>(items);
+
+                    Button submitBtn = new Button("Submit");
+
+                    //actions
+                    submitBtn.addActionListener((evt) -> {
+                        if (ts.updateCourse(new Cours(
+                                titreTF.getText(),
+                                descriptionTF.getText(),
+                                videoTF.getText(),
+                                imageTF.getText(),
+                                Integer.parseInt(prixTF.getText()),
+                                comboBox.getSelectedItem()
+                        ), c.getId())) {
+                            Dialog.show("Success", "Course Inserted successfully", "Got it", null);
+                        } else {
+                            Dialog.show("Failed", "Something Wrong! Try again", "Got it", null);
+                        }
+                        new CoachingGui().showBack();
+                    });
+
+                    addF.addAll(titreTF, descriptionTF, videoTF, imageTF, prixTF, comboBox, submitBtn);
+                    addF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
+                        new CoachingGui().showBack();
+                    });
+                    addF.show();
+
+                }
+            });
+        }
+
+        // create a new form and add the CoursesListView container to it
+        this.addAll(addCourseBtn, listView);
+
         this.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
             new Acceuil().showBack();
         });
