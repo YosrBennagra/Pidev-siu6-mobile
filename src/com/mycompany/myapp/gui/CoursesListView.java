@@ -26,7 +26,7 @@ public class CoursesListView extends Container {
         add(listItems);
     }
 
-    public void addItem(String title, String description, String price, String level, ActionListener listener) {
+    public void addItem(String title, String description, String price, String level, ActionListener listener, ActionListener deleteListener) {
         Container item = new Container(new BorderLayout());
         item.getStyle().setPadding(10, 10, 10, 10);
         item.getStyle().setBgColor(0xEEEEEE);
@@ -60,6 +60,13 @@ public class CoursesListView extends Container {
         Button detailsBtn = new Button("Details");
         detailsBtn.addActionListener(listener);
         footer.add(detailsBtn);
+
+        Button deleteBTN = new Button("delete");
+        deleteBTN.addActionListener(deleteListener);
+        deleteBTN.setUIID("CustomDeleteButton"); // set custom UIID
+        deleteBTN.getAllStyles().setBgColor(0xFF0000);
+        footer.add(deleteBTN);
+
 
         item.add(BorderLayout.SOUTH, footer);
 

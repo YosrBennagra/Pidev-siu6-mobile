@@ -5,12 +5,16 @@
  */
 package com.mycompany.myapp.gui;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Dialog;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
+import com.codename1.ui.Image;
+import com.codename1.ui.Label;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
@@ -24,12 +28,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.IOException;
+import com.codename1.ui.Image;
+import com.codename1.ui.URLImage;
+import com.codename1.ui.Container;
+import com.codename1.ui.EncodedImage;
 
 /**
  *
  * @author jallouli
  */
 public class CoachingGui extends Form {
+
+    EncodedImage enc;
+    Image imgs;
+    ImageViewer imgv;
+    String url = "https://as2.ftcdn.net/v2/jpg/04/68/31/61/1000_F_468316190_CjhrB55W6Nkosin4F1Cn3GOLGVdc5Un1.jpg";
 
     private final CourseService ts = CourseService.getInstance();
 
@@ -97,8 +111,42 @@ public class CoachingGui extends Form {
                     listView.addItem(c.getTitre(), c.getDescription(), c.getPrix() + " DT", c.getNiveau(), new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent evt) {
-                            // handle click on the details button
-                            // do something with the selected course
+                            Form detailsF = new Form("Show Courses", new BorderLayout());
+
+                            /**
+                             * ***********************IMG
+                             * ************************
+                             */
+                            try {
+                                enc = EncodedImage.create("/load.png");
+                            } catch (IOException ex) {
+
+                            }
+                            imgs = URLImage.createToStorage(enc, url, url, URLImage.RESIZE_SCALE);
+                            imgv = new ImageViewer(imgs);
+                            /**
+                             * ***********************END IMG
+                             * ************************
+                             */
+                            Label titreLabel = new Label("Titre: " + c.getTitre());
+                            detailsF.add(BorderLayout.NORTH, titreLabel);
+                            detailsF.add(BorderLayout.CENTER, imgv);
+                            detailsF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
+                                new CoachingGui().showBack();
+                            });
+                            detailsF.show();
+                        }
+                    }, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent arg0) {
+                            int id = c.getId();
+                            boolean result = CourseService.getInstance().deleteCourse(id);
+                            if (result == true) {
+                                Dialog.show("Success", "Coruse deleted", "OK", null);
+                            } else {
+                                Dialog.show("Error", "Failed to delete Course", "OK", null);
+                            }
+                            new CoachingGui().showBack();
                         }
                     });
                 }
@@ -110,7 +158,6 @@ public class CoachingGui extends Form {
                 showF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
                     new CoachingGui().showBack();
                 });
-
                 showF.show();
             }
         });

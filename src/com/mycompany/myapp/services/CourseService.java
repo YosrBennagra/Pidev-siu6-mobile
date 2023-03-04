@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package com.mycompany.myapp.services;
+
 import com.mycompany.myapp.entities.Cours;
 import com.mycompany.myapp.utilities.Statics;
 import com.codename1.io.CharArrayReader;
@@ -22,7 +23,7 @@ import java.util.Map;
  * @author jallouli
  */
 public class CourseService {
-    
+
     //var
     ConnectionRequest req;
     static CourseService instance = null;
@@ -74,6 +75,30 @@ public class CourseService {
 
         NetworkManager.getInstance().addToQueueAndWait(req);
 
+        return resultOK;
+    }
+
+    public boolean deleteCourse(int id) {
+
+        //1
+        String deleteURL = Statics.BASE_URL + "/Course/Delete/" + id;
+
+        //2
+        req.setUrl(deleteURL);
+
+        //3
+        req.setHttpMethod("DELETE");
+
+        //4
+        req.addResponseListener(new ActionListener<NetworkEvent>() {
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+                resultOK = req.getResponseCode() == 200;
+                req.removeResponseListener(this);
+            }
+        });
+
+        NetworkManager.getInstance().addToQueueAndWait(req);
         return resultOK;
     }
 
@@ -129,7 +154,7 @@ public class CourseService {
 
                 float prix = Float.parseFloat(item.get("prix").toString());
                 float id = Float.parseFloat(item.get("id").toString());
-                t.setId((int)id );
+                t.setId((int) id);
 
                 t.setTitre((String) item.get("titre"));
                 t.setDescription((String) item.get("description"));
