@@ -33,6 +33,7 @@ import com.codename1.ui.Image;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.Container;
 import com.codename1.ui.EncodedImage;
+import com.mycompany.myapp.utilities.Statics;
 
 /**
  *
@@ -43,7 +44,7 @@ public class CoachingGui extends Form {
     EncodedImage enc;
     Image imgs;
     ImageViewer imgv;
-    String url = "https://as2.ftcdn.net/v2/jpg/04/68/31/61/1000_F_468316190_CjhrB55W6Nkosin4F1Cn3GOLGVdc5Un1.jpg";
+    
 
     private final CourseService ts = CourseService.getInstance();
 
@@ -122,6 +123,7 @@ public class CoachingGui extends Form {
                             } catch (IOException ex) {
 
                             }
+                            String url = Statics.urlImgCourses + c.getImage();
                             imgs = URLImage.createToStorage(enc, url, url, URLImage.RESIZE_SCALE);
                             imgv = new ImageViewer(imgs);
                             /**

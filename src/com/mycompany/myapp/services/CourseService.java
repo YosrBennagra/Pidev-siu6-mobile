@@ -81,13 +81,13 @@ public class CourseService {
     public boolean deleteCourse(int id) {
 
         //1
-        String deleteURL = Statics.BASE_URL + "/Course/Delete/" + id;
+        String deleteURL = Statics.BASE_URL + "/Course/DeleteAPI/" + id;
 
         //2
         req.setUrl(deleteURL);
 
         //3
-        req.setHttpMethod("DELETE");
+        req.setPost(false);
 
         //4
         req.addResponseListener(new ActionListener<NetworkEvent>() {

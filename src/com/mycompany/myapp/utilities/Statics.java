@@ -10,5 +10,8 @@ package com.mycompany.myapp.utilities;
  * @author ibert
  */
 public class Statics {
+
     public static String BASE_URL = "http://127.0.0.1:8000";
+    public static String urlImgCourses = "http://127.0.0.1:8000/uploads/pictureCourses/";
+    public static String urlVidCourses = "http://127.0.0.1:8000/uploads/videoCourses/";
 }
