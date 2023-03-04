@@ -7,15 +7,23 @@ package com.mycompany.myapp.gui;
 
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
+import com.codename1.ui.ComboBox;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.TextField;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.list.DefaultListModel;
+import com.codename1.ui.list.MultiList;
 import com.mycompany.myapp.entities.Cours;
 import com.mycompany.myapp.services.CourseService;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  *
@@ -45,7 +53,10 @@ public class CoachingGui extends Form {
                 TextField videoTF = new TextField("", "Cour's video");
                 TextField imageTF = new TextField("", "Cour's image");
                 TextField prixTF = new TextField("", "Cour's prix");
-                TextField niveauTF = new TextField("", "Cour's niveau");
+
+                String[] items = {"debutant", "intermediare", "avance"};
+                ComboBox<String> comboBox = new ComboBox<>(items);
+
                 Button submitBtn = new Button("Submit");
 
                 //actions
@@ -56,7 +67,7 @@ public class CoachingGui extends Form {
                             videoTF.getText(),
                             imageTF.getText(),
                             Integer.parseInt(prixTF.getText()),
-                            niveauTF.getText()
+                            comboBox.getSelectedItem()
                     ))) {
                         Dialog.show("Success", "Task Inserted successfully", "Got it", null);
                     } else {
@@ -64,9 +75,9 @@ public class CoachingGui extends Form {
                     }
                 });
 
-                addF.addAll(titreTF, descriptionTF, videoTF, imageTF, prixTF, niveauTF, submitBtn);
+                addF.addAll(titreTF, descriptionTF, videoTF, imageTF, prixTF, comboBox, submitBtn);
                 addF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
-                    new Acceuil().showBack();
+                    new CoachingGui().showBack();
                 });
                 addF.show();
             }
@@ -75,14 +86,31 @@ public class CoachingGui extends Form {
         showCoursesBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                Form showF = new Form("show Courses", BoxLayout.y());
-                SpanLabel sl = new SpanLabel();
-                sl.setText(ts.fetchCourses().toString());
-                showF.add(sl);
+                // create a new CoursesListView container
+                CoursesListView listView = new CoursesListView();
+
+                // fetch the courses
+                List<Cours> courses = ts.fetchCourses();
+
+                // add each course to the CoursesListView container
+                for (Cours c : courses) {
+                    listView.addItem(c.getTitre(), c.getDescription(), c.getPrix() + " DT", c.getNiveau(), new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent evt) {
+                            // handle click on the details button
+                            // do something with the selected course
+                        }
+                    });
+                }
+
+                // create a new form and add the CoursesListView container to it
+                Form showF = new Form("Show Courses", new BorderLayout());
+                showF.addComponent(BorderLayout.CENTER, listView);
 
                 showF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
-                    new Acceuil().showBack();
+                    new CoachingGui().showBack();
                 });
+
                 showF.show();
             }
         });
