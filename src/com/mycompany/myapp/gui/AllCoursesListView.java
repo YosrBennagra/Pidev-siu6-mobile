@@ -12,11 +12,11 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.Border;
 
-public class CoursesListView extends Container {
+public class AllCoursesListView extends Container {
 
     private Container listItems;
 
-    public CoursesListView() {
+    public AllCoursesListView() {
         setLayout(new BoxLayout(BoxLayout.Y_AXIS));
         getStyle().setBgColor(0xFFFFFF);
 
@@ -26,7 +26,7 @@ public class CoursesListView extends Container {
         add(listItems);
     }
 
-    public void addItem(String title, String description, String price, String level, ActionListener listener, ActionListener deleteListener, ActionListener updateListener) {
+    public void addItem(String title, String description, String price, String level, ActionListener listener, ActionListener ajouterFav) {
         Container item = new Container(new BorderLayout());
         item.getStyle().setPadding(10, 10, 10, 10);
         item.getStyle().setBgColor(0xEEEEEE);
@@ -50,21 +50,14 @@ public class CoursesListView extends Container {
         priceLabel.getUnselectedStyle().setFgColor(0x000000);
         item.add(BorderLayout.CENTER, priceLabel);
 
+        Button favBtn = new Button("fav");
+        favBtn.addActionListener(ajouterFav);
+        footer.add(favBtn);
+
         Button detailsBtn = new Button("Details");
         detailsBtn.addActionListener(listener);
         footer.add(detailsBtn);
 
-        Button deleteBTN = new Button("delete");
-        deleteBTN.addActionListener(deleteListener);
-        deleteBTN.setUIID("CustomDeleteButton"); // set custom UIID
-        deleteBTN.getAllStyles().setBgColor(0xFFFFF);
-        footer.add(deleteBTN);
-
-        Button updateBTN = new Button("update");
-        updateBTN.addActionListener(updateListener);
-        updateBTN.setUIID("CustomUpdateButton"); // set custom UIID
-        updateBTN.getAllStyles().setBgColor(0xFF0000);
-        footer.add(updateBTN);
 
         item.add(BorderLayout.SOUTH, footer);
 

@@ -45,25 +45,23 @@ import com.mycompany.myapp.entities.League;
  *
  * @author jallouli
  */
-public class CoachingGui extends Form {
+public class AllCourses extends Form {
 
-    int coachId = 2;
     EncodedImage enc;
     Image imgs;
     ImageViewer imgv;
-
     private final CourseService ts = CourseService.getInstance();
 
-    public CoachingGui() {
+    public AllCourses() {
         super("course");
 
         //custom
         this.setLayout(BoxLayout.y());
-        this.setTitle("Home");
+        this.setTitle("all Courses");
 
         //widgets
         Button lolDetails = new Button("League data");
-        Button addCourseBtn = new Button("Add Cours");
+
         lolDetails.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -93,53 +91,11 @@ public class CoachingGui extends Form {
             }
         });
 
-        addCourseBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent arg0) {
-                Form addF = new Form("add Courses", BoxLayout.y());
-                //Widgets
-                TextField titreTF = new TextField("", "Cour's name");
-                TextField descriptionTF = new TextField("", "Cour's description");
-                TextField videoTF = new TextField("", "Cour's video");
-                TextField imageTF = new TextField("", "Cour's image");
-                TextField prixTF = new TextField("", "Cour's prix");
-
-                String[] items = {"debutant", "intermediare", "avance"};
-                ComboBox<String> comboBox = new ComboBox<>(items);
-
-                Button submitBtn = new Button("Submit");
-
-                //actions
-                submitBtn.addActionListener((evt) -> {
-                    if (ts.addCourse(new Cours(
-                            titreTF.getText(),
-                            descriptionTF.getText(),
-                            videoTF.getText(),
-                            imageTF.getText(),
-                            Integer.parseInt(prixTF.getText()),
-                            comboBox.getSelectedItem()
-                    ), coachId)) {
-                        Dialog.show("Success", "Course Inserted successfully");
-                    } else {
-                        Dialog.show("Failed", "Something Wrong! Try again");
-                    }
-                    new CoachingGui().showBack();
-                });
-
-                addF.addAll(titreTF, descriptionTF, videoTF, imageTF, prixTF, comboBox, submitBtn);
-                addF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
-                    new CoachingGui().showBack();
-                });
-                addF.show();
-
-            }
-        });
-
         // create a new CoursesListView container
-        CoursesListView listView = new CoursesListView();
+        AllCoursesListView listView = new AllCoursesListView();
 
         // fetch the courses
-        List<Cours> courses = ts.fetchCoursesOfCoach(coachId);
+        List<Cours> courses = ts.fetchCourses();
 
         // add each course to the CoursesListView container
         for (Cours c : courses) {
@@ -206,7 +162,7 @@ public class CoachingGui extends Form {
                     detailsF.add(BorderLayout.NORTH, content);
 
                     detailsF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
-                        new CoachingGui().showBack();
+                        new AllCourses().showBack();
                     });
 
                     detailsF.show();
@@ -215,60 +171,11 @@ public class CoachingGui extends Form {
             }, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent arg0) {
-                    int id = c.getId();
-                    boolean result = CourseService.getInstance().deleteCourse(id);
-                    if (result == true) {
-                        Dialog.show("Success", "Course deleted", "OK", null);
-                    } else {
-                        Dialog.show("Error", "Failed to delete Course", "OK", null);
-                    }
-                    new CoachingGui().showBack();
-                }
-            }, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent arg0) {
-                    Form addF = new Form("update Course", BoxLayout.y());
-                    //Widgets
-                    TextField titreTF = new TextField(c.getTitre(), "Cour's name");
-                    TextField descriptionTF = new TextField(c.getDescription(), "Cour's description");
-                    TextField videoTF = new TextField(c.getVideo(), "Cour's video");
-                    TextField imageTF = new TextField(c.getImage(), "Cour's image");
-                    TextField prixTF = new TextField(String.valueOf(c.getPrix()), "Cour's prix");
-
-                    String[] items = {"debutant", "intermediare", "avance"};
-                    ComboBox<String> comboBox = new ComboBox<>(items);
-
-                    Button submitBtn = new Button("Submit");
-
-                    //actions
-                    submitBtn.addActionListener((evt) -> {
-                        if (ts.updateCourse(new Cours(
-                                titreTF.getText(),
-                                descriptionTF.getText(),
-                                videoTF.getText(),
-                                imageTF.getText(),
-                                Integer.parseInt(prixTF.getText()),
-                                comboBox.getSelectedItem()
-                        ), c.getId())) {
-                            Dialog.show("Success", "Course Updated successfully", "Got it", null);
-                        } else {
-                            Dialog.show("Failed", "Something Wrong! Try again", "Got it", null);
-                        }
-                        new CoachingGui().showBack();
-                    });
-
-                    addF.addAll(titreTF, descriptionTF, videoTF, imageTF, prixTF, comboBox, submitBtn);
-                    addF.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
-                        new CoachingGui().showBack();
-                    });
-                    addF.show();
 
                 }
             });
         }
-
-        // create a new form and add the CoursesListView container to it
-        this.addAll(addCourseBtn, lolDetails, listView);
+        this.addAll(lolDetails, listView);
 
         this.getToolbar().addMaterialCommandToLeftBar("Back", FontImage.MATERIAL_ARROW_BACK, (e) -> {
             new Acceuil().showBack();

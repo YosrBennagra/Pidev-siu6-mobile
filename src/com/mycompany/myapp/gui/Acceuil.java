@@ -34,10 +34,15 @@ public class Acceuil extends Form {
 //            tournoiGui.show();
 //        });
 
-        tb.addMaterialCommandToSideMenu("Coaching", FontImage.MATERIAL_PEOPLE, (ActionListener) (ActionEvent evt) -> {
+        tb.addMaterialCommandToSideMenu("Gamer section", FontImage.MATERIAL_PEOPLE, (ActionListener) (ActionEvent evt) -> {
+            AllCourses gamerViewCourses = new AllCourses();
+            gamerViewCourses.show();
+        });
+
+        tb.addMaterialCommandToSideMenu("Coach section", FontImage.MATERIAL_PEOPLE, (ActionListener) (ActionEvent evt) -> {
             CoachingGui coachingGui = new CoachingGui();
             coachingGui.show();
-       });
+        });
 
         tb.addMaterialCommandToSideMenu("Groupe", FontImage.MATERIAL_GROUPS, (ActionListener) (ActionEvent evt) -> {
             GroupeGUI groupeGui = new GroupeGUI();
