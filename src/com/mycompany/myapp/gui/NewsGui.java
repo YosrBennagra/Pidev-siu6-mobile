@@ -5,14 +5,20 @@
  */
 package com.mycompany.myapp.gui;
 
+import com.codename1.components.ImageViewer;
 import com.codename1.ui.Form;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
+import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
+import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.myapp.entities.News;
 import com.mycompany.myapp.services.NewsService;
+import com.mycompany.myapp.utilities.Statics;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -21,28 +27,32 @@ import java.util.List;
  */
 public class NewsGui extends Form {
 
+    EncodedImage enc;
+    Image imgs;
+    ImageViewer imgv;
     private final NewsService ts = NewsService.getInstance();
 
     public NewsGui() {
         super("News");
         this.setLayout(new BoxLayout(BoxLayout.Y_AXIS));
-
-        // Get the list of News objects
         List<News> newsList = ts.fetchNews();
-
-        // Loop through the list of News objects and add a button and label for each item
         for (News newsItem : newsList) {
+            try {
+                enc = EncodedImage.create("/load.png");
+            } catch (IOException ex) {
+
+            }
+            String url = Statics.URL_NEWS_PIC + newsItem.getImage();
+            imgs = URLImage.createToStorage(enc, url, url, URLImage.RESIZE_SCALE);
+            imgv = new ImageViewer(imgs);
             Button viewDetailsButton = new Button("View Details");
             Label titleLabel = new Label(newsItem.getTitre());
-            titleLabel.setUIID("NewsTitleLabel");
-            // Add a listener to the View Details button
+            titleLabel.setUIID("CenterTitle");
+            titleLabel.setAlignment(CENTER);
             viewDetailsButton.addActionListener(evt -> {
-                // Navigate to the news detail page
-                // You can use the newsItem object to display the full details of the news
                 new NewsDetailsGui(newsItem).show();
             });
-
-            // Add the components to the form
+            this.add(imgv);
             this.add(titleLabel);
             this.add(viewDetailsButton);
         }

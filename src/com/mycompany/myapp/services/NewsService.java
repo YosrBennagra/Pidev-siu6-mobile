@@ -87,7 +87,10 @@ public class NewsService {
             //4
             for (Map<String, Object> item : list) {            
                 News n = new News();
+                float id = Float.parseFloat(item.get("id").toString());
+                n.setId((int) id);
                 n.setTitre((String)item.get("titre"));
+                n.setImage((String)item.get("image"));
                 n.setDescription((String)item.get("description"));
                 news.add(n);
             }

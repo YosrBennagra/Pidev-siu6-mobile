@@ -7,13 +7,15 @@
             <file>file:/C:/Users/esprit/Documents/esprit/cours/JME/2017-2018/Chapitre2+3/Chapitre3/Correction/drawer2/src/com/mycompany/myapp/MyApplication.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/gui/Acceuil.java</file>
-            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/services/Groupeservice.java</file>
-            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/entities/Jeux.java</file>
-            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/gui/JeuxGui.java</file>
-            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/entities/Groupe.java</file>
+            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/gui/NewsDetailsGui.java</file>
+            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/services/ProduitService.java</file>
+            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/utilities/Statics.java</file>
+            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/services/NewsService.java</file>
             <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/services/JeuxService.java</file>
-            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/gui/GroupeGUI.java</file>
+            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/entities/CommentaireNews.java</file>
+            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/entities/News.java</file>
+            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/gui/NewsGui.java</file>
+            <file>file:/C:/Users/ibert/OneDrive/Desktop/CodeNameOne/Pidev-siu6/src/com/mycompany/myapp/services/CommentaireNewsService.java</file>
         </group>
     </open-files>
 </project-private>
