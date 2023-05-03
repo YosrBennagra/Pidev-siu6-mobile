@@ -13,12 +13,22 @@ public class Acceuil extends Form {
 
         Toolbar tb = this.getToolbar();
         this.add(new com.codename1.ui.Label("Siuesport"));
-
+           
+       
         tb.addMaterialCommandToSideMenu("Jeux", FontImage.MATERIAL_GAMES, (ActionListener) (ActionEvent evt) -> {
             JeuxGui jeuxGui = new JeuxGui();
             jeuxGui.show();
         });
+        
+         tb.addMaterialCommandToSideMenu(SessionManager.getNom(), FontImage.MATERIAL_ACCOUNT_CIRCLE, (ActionListener) (ActionEvent evt) -> {
+            Profile profile = new Profile();
+            profile.show();
+        });
 
+       
+        
+        
+        
 //        tb.addMaterialCommandToSideMenu("Actualite", FontImage.MATERIAL_PAGES, (ActionListener) (ActionEvent evt) -> {
 //            ActualiteGui actualiteGui = new ActualiteGui();
 //            actualiteGui.show();
